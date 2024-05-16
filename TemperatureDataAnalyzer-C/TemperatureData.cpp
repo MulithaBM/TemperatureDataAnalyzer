@@ -32,12 +32,12 @@ TemperatureData::TemperatureData(const string filename) {
             tokens.push_back(token);
         }
 
-        if (columns == 0) {
-            columns = tokens.size();
-        }
-
         if (ss.eof() && line.back() == ',') {
             tokens.push_back("");
+        }
+
+        if (columns == 0) {
+            columns = tokens.size();
         }
 
         if (tokens.size() >= 6) {

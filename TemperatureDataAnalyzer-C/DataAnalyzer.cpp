@@ -7,7 +7,7 @@ using namespace std;
 // Public members
 Temperature DataAnalyzer::hottestDayOfYear(const vector<vector<Temperature>>& yearData)
 {
-	Temperature hottest{hottest.temperature = MIN_TEMPERATURE};
+	Temperature hottest{ 0, 0, 0, MIN_TEMPERATURE };
 
 	for (const vector<Temperature>& month : yearData) {
 		for (const Temperature& day : month) {
@@ -22,7 +22,7 @@ Temperature DataAnalyzer::hottestDayOfYear(const vector<vector<Temperature>>& ye
 
 Temperature DataAnalyzer::hottestDayOfMonth(const vector<Temperature>& monthData)
 {
-	Temperature hottest{hottest.temperature = MIN_TEMPERATURE};
+	Temperature hottest{ 0, 0, 0, MIN_TEMPERATURE };
 
 	for (const Temperature& day : monthData) {
 		if (day.temperature > hottest.temperature) {
@@ -35,7 +35,7 @@ Temperature DataAnalyzer::hottestDayOfMonth(const vector<Temperature>& monthData
 
 Temperature DataAnalyzer::coldestDayOfYear(const vector<vector<Temperature>>& yearData)
 {
-	Temperature coldest{coldest.temperature = MAX_TEMPERATURE};
+	Temperature coldest{ 0, 0, 0, MAX_TEMPERATURE };
 
 	for (const vector<Temperature>& month : yearData) {
 		for (const Temperature& day : month) {
@@ -50,7 +50,7 @@ Temperature DataAnalyzer::coldestDayOfYear(const vector<vector<Temperature>>& ye
 
 Temperature DataAnalyzer::coldestDayOfMonth(const vector<Temperature>& monthData)
 {
-	Temperature coldest{coldest.temperature = MAX_TEMPERATURE};
+	Temperature coldest{ 0, 0, 0, MAX_TEMPERATURE };
 
 	for (const Temperature& day : monthData) {
 		if (day.temperature < coldest.temperature) {
@@ -175,7 +175,36 @@ Temperature DataAnalyzer::coldestMeanTemperatureMonthOfYear(const vector<vector<
 
 double DataAnalyzer::modeTemperatureOfYear(const vector<vector<Temperature>>& yearData)
 {
-	return 0.0;
+	vector<double> temperatures;
+
+	for (const vector<Temperature>& month : yearData) {
+		for (const Temperature& day : month) {
+			temperatures.push_back(day.temperature);
+		}
+	}
+
+	sort(temperatures.begin(), temperatures.end());
+
+	int current = temperatures[0];
+	double mode = 0;
+	int count = 0;
+	int maxCount = 0;
+
+	for (double temperature : temperatures) {
+		if (temperature == current) {
+			count++;
+		} else {
+			if (count > maxCount) {
+				mode = current;
+				maxCount = count;
+			}
+
+			current = temperature;
+			count = 1;
+		}
+	}
+
+	return mode >= 0 ? floor(mode) : ceil(mode);
 }
 
 double DataAnalyzer::varienceOfMonth(const vector<Temperature>& monthData)
@@ -215,7 +244,9 @@ VarienceMonth DataAnalyzer::lowestVarianceMonthOfYear(const vector<vector<Temper
 		}
 	}
 
-	return VarienceMonth{ lowestVarianceMonth + 1, lowestVariance };
+	double mean = meanTemperatureOfMonth(yearData[lowestVarianceMonth]);
+
+	return VarienceMonth{ lowestVarianceMonth + 1, mean, lowestVariance };
 }
 
 double DataAnalyzer::standardDeviationOfYear(const vector<vector<Temperature>>& yearData)
@@ -255,7 +286,7 @@ double DataAnalyzer::percentageOfDaysWithinOneSD(const vector<vector<Temperature
 
 Temperature DataAnalyzer::coldestDayByMonth(const vector<vector<vector<Temperature>>>& allData, int month)
 {
-	Temperature coldest{coldest.temperature = MAX_TEMPERATURE};
+	Temperature coldest{ 0, 0, 0, MAX_TEMPERATURE };
 
 	for (const vector<vector<Temperature>>& year : allData) {
 		Temperature coldestOfYear = coldestDayOfMonth(year[month - 1]);
@@ -270,7 +301,7 @@ Temperature DataAnalyzer::coldestDayByMonth(const vector<vector<vector<Temperatu
 
 Temperature DataAnalyzer::hottestDayByMonth(const vector<vector<vector<Temperature>>>& allData, int month)
 {
-	Temperature hottest{hottest.temperature = MIN_TEMPERATURE};
+	Temperature hottest{ 0, 0, 0, MIN_TEMPERATURE };
 
 	for (const vector<vector<Temperature>>& year : allData) {
 		Temperature hottestOfYear = hottestDayOfMonth(year[month - 1]);
