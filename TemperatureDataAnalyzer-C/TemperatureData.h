@@ -17,13 +17,13 @@ struct Temperature {
 class TemperatureData {
 public:
     TemperatureData(const string filename);
-    const vector<int>& getYears() const;
-    const vector<vector<Temperature>>& getYearData(const int year) const;
-    const vector<vector<vector<Temperature>>>& getData() const;
-    int getRows() const;
-    int getColumns() const;
-    string getStartDate() const;
-    string getEndDate() const;
+    const vector<int>& getYears();
+    const vector<vector<Temperature>>& getYearData(const int year);
+    const vector<vector<vector<Temperature>>>& getData();
+    int getRows();
+    int getColumns();
+    string getStartDate();
+    string getEndDate();
 private:
     int startYear = -1;
     int startMonth = -1;

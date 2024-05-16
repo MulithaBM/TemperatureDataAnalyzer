@@ -118,36 +118,31 @@ TemperatureData::TemperatureData(const string filename) {
     file.close();
 }
 
-const vector<int>& TemperatureData::getYears() const
-{
+const vector<int>& TemperatureData::getYears() {
     return years;
 }
 
-const vector<vector<Temperature>>& TemperatureData::getYearData(const int year) const
-{
+const vector<vector<Temperature>>& TemperatureData::getYearData(const int year) {
     return data[year - startYear];
 }
 
-const vector<vector<vector<Temperature>>>& TemperatureData::getData() const
-{
+const vector<vector<vector<Temperature>>>& TemperatureData::getData() {
     return data;
 }
 
-int TemperatureData::getRows() const {
+int TemperatureData::getRows() {
     return rows;
 }
 
-int TemperatureData::getColumns() const {
+int TemperatureData::getColumns() {
     return columns;
 }
 
-string TemperatureData::getStartDate() const
-{
+string TemperatureData::getStartDate() {
     return to_string(startYear) + "-" + to_string(startMonth) + "-" + to_string(startDate);
 }
 
-string TemperatureData::getEndDate() const
-{
+string TemperatureData::getEndDate() {
 	return to_string(endYear) + "-" + to_string(endMonth) + "-" + to_string(endDate);
 }
 

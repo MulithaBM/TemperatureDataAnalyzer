@@ -57,6 +57,8 @@ private:
 	static void displayColdestDayByMonth(const vector<vector<vector<Temperature>>>& allData, int month);
 	static void displayHottestDayByMonth(const vector<vector<vector<Temperature>>>& allData, int month);
 
+	static void displayLowestVarienceYearByMonth(const vector<vector<vector<Temperature>>>& allData, int month);
+
 	static int getCurrentYear(const vector<vector<Temperature>>& yearData);
 };
 
