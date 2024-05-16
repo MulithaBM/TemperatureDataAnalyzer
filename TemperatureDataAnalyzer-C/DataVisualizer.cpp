@@ -74,8 +74,8 @@ void DataVisualizer::displayDataByYear(const vector<vector<vector<Temperature>>>
 
 void DataVisualizer::displayDataByMonth(const vector<vector<vector<Temperature>>>& data, int month)
 {
-    displayHottestDayByMonth(data);
-	displayColdestDayByMonth(data);
+    displayHottestDayByMonth(data, month);
+	displayColdestDayByMonth(data, month);
 }
 
 // Private members
@@ -380,7 +380,7 @@ void DataVisualizer::displayColdestDayByMonth(const vector<vector<vector<Tempera
 {
     displayTopic("Coldest temperature by month");
 
-	Temperature coldest = DataAnalyzer::coldestDayByMonth(data);
+	Temperature coldest = DataAnalyzer::coldestDayByMonth(data, month);
 
 	cout << "Temperature: " << coldest.temperature << endl;
 	cout << "Date: " << coldest.year << "-" << coldest.month << "-" << coldest.day << endl;
@@ -392,7 +392,7 @@ void DataVisualizer::displayHottestDayByMonth(const vector<vector<vector<Tempera
 {
     displayTopic("Hottest temperature by month");
 
-    Temperature hottest = DataAnalyzer::hottestDayByMonth(data);
+    Temperature hottest = DataAnalyzer::hottestDayByMonth(data, month);
 
     cout << "Temperature: " << hottest.temperature << endl;
     cout << "Date: " << hottest.year << "-" << hottest.month << "-" << hottest.day << endl;

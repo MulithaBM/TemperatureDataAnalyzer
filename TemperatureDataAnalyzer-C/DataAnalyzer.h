@@ -34,7 +34,7 @@ public:
     static double percentageOfDaysWithinOneSD(const vector<vector<Temperature>>& yearData, const double standardDeviation);
     static Temperature coldestDayByMonth(const vector<vector<vector<Temperature>>>& allData, int month);
     static Temperature hottestDayByMonth(const vector<vector<vector<Temperature>>>& allData, int month);
-    static int lowestVarienceByMonth(const vector<vector<vector<Temperature>>>& allData, int month);
+    static int lowestVarienceYearByMonth(const vector<vector<vector<Temperature>>>& allData, int month);
 private:
     static int getCurrentYear(const vector<vector<Temperature>>& yearData);
 };
