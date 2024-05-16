@@ -12,7 +12,7 @@ int main() {
     cout << "Turing Moore Engineering Temperature Data Analyser 1.0" << endl;
     cout << "Name: " << endl;
     cout << "Student ID : " << endl;
-    cout << "Desired Level : " << endl << endl;
+    cout << "Desired Level : HD" << endl << endl;
 
     cout << "Welcome! This program helps determine the best times of year to manufacture composite halls for new boats based on temperature data" << endl;
 
