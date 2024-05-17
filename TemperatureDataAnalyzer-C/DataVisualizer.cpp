@@ -28,9 +28,10 @@ using namespace std;
 void DataVisualizer::displayWelcomeMessage()
 {
     cout << "Turing Moore Engineering Temperature Data Analyser 1.0" << endl;
-    cout << "Name: " << endl;
-    cout << "Student ID : " << endl;
-    cout << "Desired Level : HD" << endl << endl;
+    cout << "Name: Vasim Ashhar" << endl;
+    cout << "Student ID: DU23FP0248" << endl;
+    cout << "Assignment due date: 17/05/2024" << endl;
+    cout << "Desired Level: HD" << endl << endl;
 
     cout << "Welcome! This program helps determine the best times of year to manufacture composite halls for new boats based on temperature data" << endl << endl;
 
@@ -39,6 +40,7 @@ void DataVisualizer::displayWelcomeMessage()
     dataHandler.addLogMessage("Turing Moore Engineering Temperature Data Analyser 1.0\n");
     dataHandler.addLogMessage("Name: \n");
     dataHandler.addLogMessage("Student ID: \n");
+    dataHandler.addLogMessage("Assignment due date: 17/05/2024\n");
     dataHandler.addLogMessage("Desired Level: HD\n\n");
     dataHandler.addLogMessage("Welcome! This program helps determine the best times of year to manufacture composite halls for new boats based on temperature data\n");
 }
@@ -48,12 +50,10 @@ void DataVisualizer::displayWelcomeMessage()
 */
 void DataVisualizer::displayFileSelectionMessage()
 {
-    string fileSelectionMessage = "Please choose a data file:\n\n";
+    string fileSelectionMessage = "Please choose a data file (Enter file name in lowercase. Dont type any whitespaces or special characters):\n\n";
 
-    fileSelectionMessage += "1. Avalon Airport Temperature Data-2022.csv\n";
-    fileSelectionMessage += "2. Avalon Airport Temperature Data-all.csv\n";
-    fileSelectionMessage += "3. Bendigo Airport Temperature Data-2022.csv\n";
-    fileSelectionMessage += "4. Bendigo Airport Temperature Data-all.csv\n";
+    fileSelectionMessage += "1. Avalon\n";
+    fileSelectionMessage += "2. Bendigo\n";
 
     displayMessage(fileSelectionMessage);
 }

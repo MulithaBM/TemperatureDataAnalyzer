@@ -13,15 +13,15 @@ class DataHandler
 {
 public:
 	static DataHandler& getInstance();
-	void handleDataByYear(const vector<vector<vector<Temperature>>>& allData);
+	void handleDataByYear(const vector<vector<vector<Temperature>>>& allData, const string source);
 	void handleDataPerYear(const vector<vector<Temperature>>& yearData);
 	void handleDataByMonth(const vector<vector<vector<Temperature>>>& allData, int month);
 	void addLogMessage(const string message);
 private:
-	DataHandler() {};
+	DataHandler() = default;
 	static DataHandler* handler;
 	vector<string> logMessages;
-	static void prepareWriteData(const vector<vector<vector<Temperature>>>& allData);
+	static void prepareWriteDataByYear(const vector<vector<vector<Temperature>>>& allData, const string source);
 	static string getMonthString(const int month);
 	void logData();
 };

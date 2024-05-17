@@ -7,6 +7,9 @@
 
 using namespace std;
 
+DataHandler* DataHandler::handler = nullptr;
+
+// public members
 DataHandler& DataHandler::getInstance()
 {
 	if (handler == nullptr) {
@@ -16,11 +19,11 @@ DataHandler& DataHandler::getInstance()
 	return *handler;
 }
 
-void DataHandler::handleDataByYear(const vector<vector<vector<Temperature>>>& allData)
+void DataHandler::handleDataByYear(const vector<vector<vector<Temperature>>>& allData, const string source)
 {
 	DataVisualizer::displayDataByYear(allData);
 
-	prepareWriteData(allData);
+	prepareWriteDataByYear(allData, source);
 
 	logData();
 }
@@ -44,9 +47,9 @@ void DataHandler::addLogMessage(const string message)
 	logMessages.push_back(message);
 }
 
-void DataHandler::prepareWriteData(const vector<vector<vector<Temperature>>>& allData)
+void DataHandler::prepareWriteDataByYear(const vector<vector<vector<Temperature>>>& allData, const string source)
 {
-    DataWriter dataWriter;
+    DataWriter dataWriter(source);
 
     int currentYear = 0;
     int currentMonth = 1;
@@ -86,6 +89,7 @@ void DataHandler::prepareWriteData(const vector<vector<vector<Temperature>>>& al
     }
 }
 
+// private members
 string DataHandler::getMonthString(const int month)
 {
     switch (month) {

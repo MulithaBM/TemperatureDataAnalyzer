@@ -7,21 +7,25 @@
 
 using namespace std;
 
-DataWriter::DataWriter()
+DataWriter::DataWriter(const string subdir)
 {
-    try {
-        if (_mkdir("../x64/Debug/results") == -1) {
-            cerr << "Error creating results folder" << endl;
-        }
-	}
-    catch (const exception& e) {
-        cerr << e.what() << endl;
-    }
+    string root = "../x64/Debug/results";
+    string sub = root + "/" + subdir;
+
+    const char* rootDirectory = root.c_str();
+    const char* subDirectory = sub.c_str();
+
+    int result;
+
+    result = _mkdir(rootDirectory) == -1;
+    result = _mkdir(subDirectory) == -1;
+
+    path = sub;
 }
 
 void DataWriter::writeDataPerYear(const vector<string> data, const string filename)
 {
-    ofstream outfile("../x64/Debug/results/" + filename);
+    ofstream outfile(path + "/" + filename);
 
     if (!outfile.is_open()) {
         cerr << "Error opening "<< filename << " file." << endl;
@@ -34,8 +38,4 @@ void DataWriter::writeDataPerYear(const vector<string> data, const string filena
 	}
 
     outfile.close();
-}
-
-void DataWriter::writeDataByYear(const vector<vector<vector<Temperature>>>& data)
-{
 }

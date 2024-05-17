@@ -11,10 +11,11 @@ static const string OUT_DIR = "../x64/Debug/results";
 
 class DataWriter
 {
-	public:
-		DataWriter();
-		void writeDataPerYear(const vector<string> data, const string filename);
-		void writeDataByYear(const vector<vector<vector<Temperature>>>& data);
+public:
+	DataWriter(const string subdir);
+	void writeDataPerYear(const vector<string> data, const string filename);
+private:
+	string path;
 };
 
 #endif

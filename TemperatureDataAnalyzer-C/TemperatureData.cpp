@@ -2,6 +2,7 @@
 #include <sstream>
 #include <iostream>
 #include "TemperatureData.h"
+#include "DataVisualizer.h"
 
 using namespace std;
 
@@ -22,6 +23,7 @@ TemperatureData::TemperatureData(const string filename) {
     string line;
 
     getline(file, line);
+    rows++;
 
     while (getline(file, line)) {
         stringstream ss(line);
@@ -41,67 +43,72 @@ TemperatureData::TemperatureData(const string filename) {
         }
 
         if (tokens.size() >= 6) {
-            Temperature temp{};
+            if (!tokens[2].empty() && !tokens[3].empty() && !tokens[4].empty() && !tokens[5].empty()) {
+                Temperature temp{};
 
-            for (string token : tokens) {
-                if (token.empty()) {
-					continue;
-				}
-			}
+                for (int i = 2; i < 6; i++) {
+                    try {
+                        if (i == 5) {
+                            double dTest = stod(tokens[i]);
+                        }
+                        else {
+                            int iTest = stoi(tokens[i]);
+                        }
+                    }
+                    catch (const invalid_argument& e) {
+                        DataVisualizer::displayMessage("Invalid data in file: " + filename + " at row: " + to_string(rows + 1) + " at column: " + to_string(i + 1));
+                        exit(1);
+                    }
+                }
 
-            try {
                 temp.year = stoi(tokens[2]);
                 temp.month = stoi(tokens[3]);
                 temp.day = stoi(tokens[4]);
                 temp.temperature = stod(tokens[5]);
-            }
-            catch (const invalid_argument& e) {
-                continue;
-                /*cerr << "Invalid data in file: " << filename << " at row: " << data.size() + 1 << endl;*/ // TODO: include column number
-            }
 
-            // Initialy set current year and month
-            if (currentYear == -1 && currentMonth == -1) {
-                currentYear = temp.year;
-                currentMonth = temp.month;
+                // Initialy set current year and month
+                if (currentYear == -1 && currentMonth == -1) {
+                    currentYear = temp.year;
+                    currentMonth = temp.month;
 
-                if (startYear < 0) {
-					startYear = currentYear;
-				}
+                    if (startYear < 0) {
+                        startYear = currentYear;
+                    }
 
-                if (startMonth < 0) {
-                    startMonth = currentMonth;
+                    if (startMonth < 0) {
+                        startMonth = currentMonth;
+                    }
                 }
+
+                // Check for month changes
+                if (temp.month != currentMonth) {
+                    year[currentMonth - 1] = month;
+
+                    month.clear();
+
+                    currentMonth = temp.month;
+                }
+
+                // Check for year changes
+                if (temp.year != currentYear) {
+                    data.push_back(year);
+                    years.push_back(currentYear);
+
+                    clearYearData(year);
+
+                    currentYear = temp.year;
+                    currentMonth = temp.month;
+                }
+
+                if (startDate < 0) {
+                    startDate = temp.day;
+                }
+
+                month.push_back(temp);
             }
-
-            // Check for month changes
-            if (temp.month != currentMonth) {
-                year[currentMonth - 1] = month;
-
-                month.clear();
-
-                currentMonth = temp.month;
-            }
-
-            // Check for year changes
-            if (temp.year != currentYear) {
-                data.push_back(year);
-                years.push_back(currentYear);
-
-                clearYearData(year);
-
-                currentYear = temp.year;
-                currentMonth = temp.month;
-            }
-
-            if (startDate < 0) {
-				startDate = temp.day;
-			}
-
-            month.push_back(temp);
-
-            rows++;
         }
+
+        rows++;
     }
 
     // Adding the last month of the last year
