@@ -11,7 +11,7 @@ DataWriter::DataWriter()
 {
     try {
         if (_mkdir("../x64/Debug/results") == -1) {
-            cerr << "Error creating folder results" << endl;
+            cerr << "Error creating results folder" << endl;
         }
 	}
     catch (const exception& e) {

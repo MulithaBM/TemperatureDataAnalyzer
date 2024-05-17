@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="DataAnalyzer.cpp" />
     <ClCompile Include="DataHandler.cpp" />
+    <ClCompile Include="DataLogger.cpp" />
     <ClCompile Include="DataVisualizer.cpp" />
     <ClCompile Include="DataWriter.cpp" />
     <ClCompile Include="TemperatureData.cpp" />
@@ -137,6 +138,7 @@
   <ItemGroup>
     <ClInclude Include="DataAnalyzer.h" />
     <ClInclude Include="DataHandler.h" />
+    <ClInclude Include="DataLogger.h" />
     <ClInclude Include="DataVisualizer.h" />
     <ClInclude Include="DataWriter.h" />
     <ClInclude Include="TemperatureData.h" />

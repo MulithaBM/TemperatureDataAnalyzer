@@ -16,8 +16,12 @@ static const int dayWidth = 6;
 class DataVisualizer
 {
 public:
-	/*DataVisualizer(const string logFileName);*/
-	static void displayTopic(string message);
+	static void displayWelcomeMessage();
+	static void displayFileSelectionMessage();
+	static void displayNewLine();
+	static void displayMessage(string message);
+	static void displayInputMessage(string message);
+	static void displayTopic(string topic);
 	static void displayRowsAndColumns(const int rows, const int columns);
 	static void displayStartAndEndDate(const string startDate, const string endDate);
 	static void displayYears(const vector<int>& years);
@@ -25,8 +29,6 @@ public:
 	static void displayDataByYear(const vector<vector<vector<Temperature>>>& allData);
 	static void displayDataByMonth(const vector<vector<vector<Temperature>>>& allData, int month);
 private:
-	/*static Logger logger;*/
-
 	static void displayHottestDayPerYear(const vector<vector<Temperature>>& yearData);
 	static void displayHottestDayByYear(const vector<vector<vector<Temperature>>>& allData);
 

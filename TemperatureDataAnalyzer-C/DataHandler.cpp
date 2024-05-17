@@ -1,29 +1,50 @@
 #include<sstream>
 #include "DataHandler.h"
 #include "DataVisualizer.h"
-#include "DataWriter.h"
 #include "DataAnalyzer.h"
+#include "DataWriter.h"
+#include "DataLogger.h"
 
 using namespace std;
 
-void DataHandler::HandleDataByYear(const vector<vector<vector<Temperature>>>& allData)
+DataHandler& DataHandler::getInstance()
+{
+	if (handler == nullptr) {
+		handler = new DataHandler();
+	}
+
+	return *handler;
+}
+
+void DataHandler::handleDataByYear(const vector<vector<vector<Temperature>>>& allData)
 {
 	DataVisualizer::displayDataByYear(allData);
 
-	PrepareWriteData(allData);
+	prepareWriteData(allData);
+
+	logData();
 }
 
-void DataHandler::HandleDataPerYear(const vector<vector<Temperature>>& yearData)
+void DataHandler::handleDataPerYear(const vector<vector<Temperature>>& yearData)
 {
 	DataVisualizer::displayDataPerYear(yearData);
+
+	logData();
 }
 
-void DataHandler::HandleDataByMonth(const vector<vector<vector<Temperature>>>& allData, int month)
+void DataHandler::handleDataByMonth(const vector<vector<vector<Temperature>>>& allData, int month)
 {
 	DataVisualizer::displayDataByMonth(allData, month);
+
+	logData();
 }
 
-void DataHandler::PrepareWriteData(const vector<vector<vector<Temperature>>>& allData)
+void DataHandler::addLogMessage(const string message)
+{
+	logMessages.push_back(message);
+}
+
+void DataHandler::prepareWriteData(const vector<vector<vector<Temperature>>>& allData)
 {
     DataWriter dataWriter;
 
@@ -95,4 +116,15 @@ string DataHandler::getMonthString(const int month)
 	default:
 		return "Invalid month";
 	}
+}
+
+void DataHandler::logData()
+{
+	DataLogger logger(LOG_FILE);
+
+	for (const string& message : logMessages) {
+		logger.logData(message);
+	}
+
+	logger.closeFile();
 }

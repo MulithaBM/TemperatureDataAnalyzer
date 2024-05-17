@@ -5,57 +5,44 @@
 #include "TemperatureData.h"
 #include "DataVisualizer.h"
 #include "DataHandler.h"
+#include "DataLogger.h"
 
 using namespace std;
 
 int main() {
-    cout << "Turing Moore Engineering Temperature Data Analyser 1.0" << endl;
-    cout << "Name: " << endl;
-    cout << "Student ID : " << endl;
-    cout << "Desired Level : HD" << endl << endl;
+    DataHandler& dataHandler = DataHandler::getInstance();
 
-    cout << "Welcome! This program helps determine the best times of year to manufacture composite halls for new boats based on temperature data" << endl;
+    DataVisualizer::displayWelcomeMessage();
 
     char continueChoice;
 
     do {
-        cout << "\nPlease choose a data file:" << endl;
+        DataVisualizer::displayFileSelectionMessage();
 
-        cout << "1. Avalon Airport Temperature Data-2022.csv" << endl;
-        cout << "2. Avalon Airport Temperature Data-all.csv" << endl;
-        cout << "3. Bendigo Airport Temperature Data-2022.csv" << endl;
-        cout << "4. Bendigo Airport Temperature Data-all.csv" << endl << endl;
-
-        cout << "Enter file number: ";
+        DataVisualizer::displayInputMessage("Please enter file number: ");
 
         int fileChoice;
         cin >> fileChoice;
 
+        dataHandler.addLogMessage("User input: " + to_string(fileChoice) + "\n");
+
         cout << endl;
 
         if (fileChoice >= 1 && fileChoice <= 4) {
-            /*Logger logger("log.txt");
 
-            logger.write("User selection: " + string(1, choice) + "\n");*/
-
-            /*string filename = "D:/Development/Outsource Projects/TemperatureDataAnalyzer/TemperatureDataAnalyzer-C/x64/Debug/";*/
             string filename = "../x64/Debug/";
 
             if (fileChoice == 1) {
                 filename += "Avalon Airport Temperature Data-2022.csv";
-                /*logger.write("Avalon Airport Temperature Data-2022.csv:\n\n");*/
             }
             else if (fileChoice == 2) {
                 filename += "Avalon Airport Temperature Data-all.csv";
-                /*logger.write("Bendigo-all.csv:\n\n");*/
             }
             else if (fileChoice == 3) {
                 filename += "Bendigo Airport Temperature Data-2022.csv";
-                /*logger.write("Bendigo-2022.csv:\n\n");*/
             }
             else if (fileChoice == 4) {
                 filename += "Bendigo Airport Temperature Data-all.csv";
-                /*logger.write("Bendigo-all.csv:\n\n");*/
             }
 
             TemperatureData data(filename);
@@ -67,72 +54,82 @@ int main() {
             DataVisualizer::displayRowsAndColumns(rows, columns);
 
             if (fileChoice == 1 || fileChoice == 3) {
-                DataHandler::HandleDataPerYear(groupedData[0]);
+                dataHandler.handleDataPerYear(groupedData[0]);
             }
             else {
                 const vector<int>& years = data.getYears();
 
                 DataVisualizer::displayStartAndEndDate(data.getStartDate(), data.getEndDate());
 
-                cout << "Enter 1 to display data by year or enter 2 to display data by month" << endl << endl;
-                cout << "Enter option: ";
+                DataVisualizer::displayMessage("Enter 1 to display data by year or enter 2 to display data by month\n");
+                DataVisualizer::displayInputMessage("Enter option: ");
 
                 int timeChice;
                 cin >> timeChice;
 
+                dataHandler.addLogMessage("User input: " + to_string(timeChice) + "\n");
+
+                DataVisualizer::displayNewLine();
+
                 if (timeChice == 1) {
                     DataVisualizer::displayYears(years);
 
-                    cout << "Choose a year to display yearly data or * to display all years" << endl << endl;
-                    cout << "Enter year: ";
+                    DataVisualizer::displayMessage("Choose a year to display yearly data or * to display all years\n");
+                    DataVisualizer::displayInputMessage("Enter year: ");
 
                     string yearChoice;
                     cin >> yearChoice;
 
+                    dataHandler.addLogMessage("User input: " + yearChoice + "\n");
+
+                    DataVisualizer::displayNewLine();
+
                     if (yearChoice == "*") {
-                        DataHandler::HandleDataByYear(groupedData);
+                        dataHandler.handleDataByYear(groupedData);
                     }
                     else {
                         int year = stoi(yearChoice);
 
                         if (year < years[0] || year > years[years.size() - 1]) {
-                            cout << "Invalid year.\n\n";
+                            DataVisualizer::displayMessage("Invalid year.\n");
                         }
                         else {
                             const vector<vector<Temperature>>& yearData = data.getYearData(year);
 
-                            DataHandler::HandleDataPerYear(yearData);
+                            dataHandler.handleDataPerYear(yearData);
                         }
                     }
                 }
                 else if (timeChice == 2) {
-                    cout << "Choose a month to display monthly data (Enter a month number from 1 to 12)" << endl << endl;
-                    cout << "Enter month: ";
+                    DataVisualizer::displayMessage("Choose a month to display monthly data (Enter a month number from 1 to 12)\n");
+                    DataVisualizer::displayInputMessage("Enter month: ");
 
                     int monthChoice;
                     cin >> monthChoice;
 
+                    dataHandler.addLogMessage("User input: " + to_string(monthChoice) + "\n");
+
                     if (monthChoice >= 1 && monthChoice <= 12) {
-						DataHandler::HandleDataByMonth(groupedData, monthChoice);
+                        dataHandler.handleDataByMonth(groupedData, monthChoice);
 					}
                     else {
-						cout << "Invalid month.\n\n";
+                        DataVisualizer::displayMessage("Invalid month.\n");
 					}
                 }
                 else {
-                    cout << "Invalid choice.\n\n";
+                    DataVisualizer::displayMessage("Invalid choice.\n");
                 }
             }
 		}
         else {
-            cout << "Invalid file number.\n\n";
+            DataVisualizer::displayMessage("Invalid file number.\n");
         }
 
         cout << "Do you want to continue (c) or exit (e)? ";
         cin >> continueChoice;
     } while (tolower(continueChoice) == 'c');
 
-    cout << "Exiting program. Thank you!\n";
+    DataVisualizer::displayMessage("Exiting program.Thank you!");
 
     return 0;
 }

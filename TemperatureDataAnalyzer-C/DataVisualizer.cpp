@@ -10,6 +10,7 @@
 #include <iomanip>
 #include <sstream>
 #include "DataVisualizer.h"
+#include "DataHandler.h"
 #include "DataAnalyzer.h"
 #include "DataWriter.h"
 
@@ -22,12 +23,82 @@ using namespace std;
 // Public members
 
 /*
+* Function: display the welcome message
+*/
+void DataVisualizer::displayWelcomeMessage()
+{
+    cout << "Turing Moore Engineering Temperature Data Analyser 1.0" << endl;
+    cout << "Name: " << endl;
+    cout << "Student ID : " << endl;
+    cout << "Desired Level : HD" << endl << endl;
+
+    cout << "Welcome! This program helps determine the best times of year to manufacture composite halls for new boats based on temperature data" << endl << endl;
+
+    DataHandler& dataHandler = DataHandler::getInstance();
+
+    dataHandler.addLogMessage("Turing Moore Engineering Temperature Data Analyser 1.0\n");
+    dataHandler.addLogMessage("Name: \n");
+    dataHandler.addLogMessage("Student ID: \n");
+    dataHandler.addLogMessage("Desired Level: HD\n\n");
+    dataHandler.addLogMessage("Welcome! This program helps determine the best times of year to manufacture composite halls for new boats based on temperature data\n");
+}
+
+/*
+* Function: display the file selection message
+*/
+void DataVisualizer::displayFileSelectionMessage()
+{
+    string fileSelectionMessage = "Please choose a data file:\n\n";
+
+    fileSelectionMessage += "1. Avalon Airport Temperature Data-2022.csv\n";
+    fileSelectionMessage += "2. Avalon Airport Temperature Data-all.csv\n";
+    fileSelectionMessage += "3. Bendigo Airport Temperature Data-2022.csv\n";
+    fileSelectionMessage += "4. Bendigo Airport Temperature Data-all.csv\n";
+
+    displayMessage(fileSelectionMessage);
+}
+
+/*
+* Function: add a new empty line
+*/
+void DataVisualizer::displayNewLine()
+{
+    displayMessage("\n");
+}
+
+/*
+* Function: display information
+* Parameters: information
+*/
+void DataVisualizer::displayMessage(string message)
+{
+    cout << message << endl;
+
+    DataHandler& dataHandler = DataHandler::getInstance();
+
+    dataHandler.addLogMessage(message);
+}
+
+/*
+* Function: display the input message
+* Parameters: input message
+*/
+void DataVisualizer::displayInputMessage(string message)
+{
+    cout << message;
+
+    DataHandler& dataHandler = DataHandler::getInstance();
+
+    dataHandler.addLogMessage(message);
+}
+
+/*
 * Function: display a topic
 * Parameters: topic
 */
-void DataVisualizer::displayTopic(string message)
+void DataVisualizer::displayTopic(string topic)
 {
-    cout << "<<< " << message << " >>>" << endl << endl;
+    displayMessage("<< " + topic + " >>" + "\n");
 }
 
 /*
@@ -36,11 +107,8 @@ void DataVisualizer::displayTopic(string message)
 */
 void DataVisualizer::displayRowsAndColumns(const int rows, const int columns)
 {
-    cout << "Rows: " << rows << endl;
-    cout << "Columns: " << columns << endl << endl;
-
-    /*logger.write("Rows: " + to_string(rows));
-    logger.write("Columns: " + to_string(columns));*/
+    displayMessage("Rows: " + to_string(rows));
+    displayMessage("Columns: " + to_string(columns) + "\n");
 }
 
 /*
@@ -49,11 +117,8 @@ void DataVisualizer::displayRowsAndColumns(const int rows, const int columns)
 */
 void DataVisualizer::displayStartAndEndDate(const string startDate, const string endDate)
 {
-    cout << "Start date: " << startDate << endl;
-	cout << "End date: " << endDate << endl << endl;
-
-	/*logger.write("Start date: " + startDate);
-    	logger.write("End date: " + endDate);*/
+    displayMessage("Start date: " + startDate);
+	displayMessage("End date: " + endDate + "\n");
 }
 
 /*
@@ -62,13 +127,13 @@ void DataVisualizer::displayStartAndEndDate(const string startDate, const string
 */
 void DataVisualizer::displayYears(const vector<int>& years)
 {
-    cout << "Years in the file:" << endl << endl;
+    displayTopic("Years in the file");
 
     for (const int& year : years) {
-	    cout << year << endl;
+        displayMessage(to_string(year));
 	}
 
-    cout << endl;
+    displayNewLine();
 }
 
 /*
@@ -128,10 +193,8 @@ void DataVisualizer::displayHottestDayPerYear(const vector<vector<Temperature>>&
 
     displayTopic("Hottest temperature"); // display the topic
 
-    cout << "Temperature: " << hottest.temperature << endl;
-    cout << "Date: " << hottest.year << "-" << hottest.month << "-" << hottest.day << endl;
-
-    cout << endl << endl;
+    displayMessage("Temperature: " + to_string(hottest.temperature) + "\n");
+    displayMessage("Date: " + to_string(hottest.year) + "-" + to_string(hottest.month) + "-" + to_string(hottest.day) + "\n\n");
 }
 
 /*
@@ -141,23 +204,28 @@ void DataVisualizer::displayHottestDayPerYear(const vector<vector<Temperature>>&
 void DataVisualizer::displayHottestDayByYear(const vector<vector<vector<Temperature>>>& data)
 {
     displayTopic("Hottest temperature by year"); // display the topic
-    /*logger.write("Hottest temperature by year");*/
+    
+    stringstream header;
 
-    cout << setw(yearWidth) << left << "Year"
+    header << setw(yearWidth) << left << "Year"
         << setw(monthWidth) << left << "Month"
         << setw(dayWidth) << left << "Day"
-        << setw(tempWidth) << left << "Temperature" << endl; // display the header
+        << setw(tempWidth) << left << "Temperature";
 
-    /*logger.write("Year,Month,Day,Temperature");*/
+    displayMessage(header.str()); // display the header
 
     // loop through the data
     for (const vector<vector<Temperature>>& year : data) {
         Temperature hottest = DataAnalyzer::hottestDayOfYear(year);
 
-        cout << setw(yearWidth) << left << hottest.year
-            << setw(monthWidth) << left << hottest.month
-            << setw(dayWidth) << left << hottest.day
-            << setw(tempWidth) << left << hottest.temperature << endl; // display the data of the hottest day of the year
+        stringstream row;
+
+        row << setw(yearWidth) << left << hottest.year
+			<< setw(monthWidth) << left << hottest.month
+			<< setw(dayWidth) << left << hottest.day
+			<< setw(tempWidth) << left << hottest.temperature;
+
+        displayMessage(row.str()); // display the data of the hottest day of the year
     }
 
     cout << endl << endl;
