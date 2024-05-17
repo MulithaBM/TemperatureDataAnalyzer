@@ -1,3 +1,11 @@
+/*
+* Program Name: TemperatureDataAnalyzer
+* Programmer: Vasim Ashhar
+* File: TemperatureData.cpp
+* Date: 2024-05-12
+* Description: Method implementations for the TemperatureData class
+*/
+
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -10,7 +18,7 @@ TemperatureData::TemperatureData(const string filename) {
     ifstream file(filename);
 
     if (!file.is_open()) {
-        cerr << "Error opening file: " << filename << endl;
+        DataVisualizer::displayMessage("Error opening file: " + filename);
         exit(1);
     }
 

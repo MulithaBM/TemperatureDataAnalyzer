@@ -1,7 +1,7 @@
 /*
 * Program Name: TemperatureDataAnalyzer
-* Programmer:
-* File: DataAnalyzer.cpp
+* Programmer: Vasim Ashhar
+* File: DataVisualizer.cpp
 * Date: 2024-05-12
 * Description: Method implementations for the DataVisualizer class
 */
@@ -27,22 +27,13 @@ using namespace std;
 */
 void DataVisualizer::displayWelcomeMessage()
 {
-    cout << "Turing Moore Engineering Temperature Data Analyser 1.0" << endl;
-    cout << "Name: Vasim Ashhar" << endl;
-    cout << "Student ID: DU23FP0248" << endl;
-    cout << "Assignment due date: 17/05/2024" << endl;
-    cout << "Desired Level: HD" << endl << endl;
+    displayMessage("Turing Moore Engineering Temperature Data Analyser 1.0");
+    displayMessage("Name: Vasim Ashhar");
+    displayMessage("Student ID: DU23FP0248");
+    displayMessage("Assignment due date: 17/05/2024");
+    displayMessage("Desired Level: HD\n");
 
-    cout << "Welcome! This program helps determine the best times of year to manufacture composite halls for new boats based on temperature data" << endl << endl;
-
-    DataHandler& dataHandler = DataHandler::getInstance();
-
-    dataHandler.addLogMessage("Turing Moore Engineering Temperature Data Analyser 1.0\n");
-    dataHandler.addLogMessage("Name: \n");
-    dataHandler.addLogMessage("Student ID: \n");
-    dataHandler.addLogMessage("Assignment due date: 17/05/2024\n");
-    dataHandler.addLogMessage("Desired Level: HD\n\n");
-    dataHandler.addLogMessage("Welcome! This program helps determine the best times of year to manufacture composite halls for new boats based on temperature data\n");
+    displayMessage("Welcome! This program helps determine the best times of year to manufacture composite halls for new boats based on temperature data\n");
 }
 
 /*
@@ -228,7 +219,7 @@ void DataVisualizer::displayHottestDayByYear(const vector<vector<vector<Temperat
         displayMessage(row.str()); // display the data of the hottest day of the year
     }
 
-    cout << endl << endl;
+    displayNewLine();
 }
 
 /*
@@ -241,10 +232,8 @@ void DataVisualizer::displayColdestDayPerYear(const vector<vector<Temperature>>&
 
 	displayTopic("Coldest temperature"); // display the topic
 
-	cout << "Temperature: " << coldest.temperature << endl;
-	cout << "Date: " << coldest.year << "-" << coldest.month << "-" << coldest.day << endl;
-
-    cout << endl << endl;
+    displayMessage("Temperature: " + to_string(coldest.temperature) + "\n");
+	displayMessage("Date: " + to_string(coldest.year) + "-" + to_string(coldest.month) + "-" + to_string(coldest.day) + "\n\n");
 }
 
 /*
@@ -255,22 +244,30 @@ void DataVisualizer::displayColdestDayByYear(const vector<vector<vector<Temperat
 {
     displayTopic("Coldest temperature by year"); // display the topic
 
-    cout << setw(yearWidth) << left << "Year"
+    stringstream header;
+
+    header << setw(yearWidth) << left << "Year"
         << setw(monthWidth) << left << "Month"
         << setw(dayWidth) << left << "Day"
-        << setw(tempWidth) << left << "Temperature" << endl; // display the header
+        << setw(tempWidth) << left << "Temperature";
+
+    displayMessage(header.str()); // display the header
 
     // loop through the data
     for (const vector<vector<Temperature>>& year : data) {
         Temperature hottest = DataAnalyzer::coldestDayOfYear(year); // calculate the coldest day of the year
 
-        cout << setw(yearWidth) << left << hottest.year
-            << setw(monthWidth) << left << hottest.month
-            << setw(dayWidth) << left << hottest.day
-            << setw(tempWidth) << left << hottest.temperature << endl; // display the data of the coldest day of the year
+        stringstream row;
+
+        row << setw(yearWidth) << left << hottest.year
+			<< setw(monthWidth) << left << hottest.month
+			<< setw(dayWidth) << left << hottest.day
+			<< setw(tempWidth) << left << hottest.temperature;
+
+        displayMessage(row.str()); // display the data of the coldest day of the year
     }
 
-    cout << endl << endl;
+    displayNewLine();
 }
 
 /*
@@ -283,9 +280,7 @@ void DataVisualizer::displayMeanTemperaturePerYear(const vector<vector<Temperatu
 
     displayTopic("Mean temperature"); // display the topic
 
-    cout << "Temperature: " << mean << endl;
-
-    cout << endl << endl;
+    displayMessage("Temperature: " + to_string(mean) + "\n\n");
 }
 
 /*
@@ -296,18 +291,26 @@ void DataVisualizer::displayMeanTemperatureByYear(const vector<vector<vector<Tem
 {
     displayTopic("Mean temperature by year"); // display the topic
 
-    cout << setw(yearWidth) << left << "Year"
-        << setw(tempWidth) << left << "Temperature" << endl; // display the header
+    stringstream header;
 
-    // loop through the data
-    for (const vector<vector<Temperature>>& year : data) {
-        int currentYear = getCurrentYear(year); // get the current year
+    header << setw(yearWidth) << left << "Year"
+		<< setw(tempWidth) << left << "Temperature";
 
-        cout << setw(yearWidth) << left << currentYear
-            << setw(tempWidth) << left << DataAnalyzer::meanTemperatureOfYear(year) << endl; // display the mean temperature of the year
-    }
+    displayMessage(header.str()); // display the header
 
-    cout << endl << endl;
+	// loop through the data
+	for (const vector<vector<Temperature>>& year : data) {
+		int currentYear = getCurrentYear(year); // get the current year
+
+		stringstream row;
+
+		row << setw(yearWidth) << left << currentYear
+			<< setw(tempWidth) << left << DataAnalyzer::meanTemperatureOfYear(year);
+
+		displayMessage(row.str()); // display the mean temperature of the year
+	}
+
+    displayNewLine();
 }
 
 /*
@@ -320,9 +323,7 @@ void DataVisualizer::displayMedianTemperaturePerYear(const vector<vector<Tempera
 
     displayTopic("Median temperature"); // display the topic
 
-    cout << "Temperature: " << median << endl;
-
-    cout << endl << endl;
+    displayMessage("Temperature: " + to_string(median) + "\n\n");
 }
 
 /*
@@ -333,18 +334,26 @@ void DataVisualizer::displayMedianTemperatureByYear(const vector<vector<vector<T
 {
     displayTopic("Median temperature by year"); // display the topic
 
-    cout << setw(yearWidth) << left << "Year"
-        << setw(tempWidth) << left << "Temperature" << endl; // display the header
+    stringstream header;
+
+    header << setw(yearWidth) << left << "Year"
+        << setw(tempWidth) << left << "Temperature";
+
+    displayMessage(header.str()); // display the header
 
     // loop through the data
     for (const vector<vector<Temperature>>& year : data) {
-        int currentYear = getCurrentYear(year); // get the current year
+		int currentYear = getCurrentYear(year); // get the current year
 
-        cout << setw(yearWidth) << left << currentYear
-            << setw(tempWidth) << left << DataAnalyzer::medianTemperatureOfYear(year) << endl; // display the median temperature of the year
-    }
+		stringstream row;
 
-    cout << endl << endl;
+		row << setw(yearWidth) << left << currentYear
+			<< setw(tempWidth) << left << DataAnalyzer::medianTemperatureOfYear(year);
+
+		displayMessage(row.str()); // display the median temperature of the year
+	}
+
+    displayNewLine();
 }
 
 /*
@@ -357,9 +366,7 @@ void DataVisualizer::displayModeTemperaturePerYear(const vector<vector<Temperatu
 
     displayTopic("Mode temperature"); // display the topic
 
-	cout << "Temperature: " << mode << endl;
-
-	cout << endl << endl;
+    displayMessage("Temperature: " + to_string(mode) + "\n\n");
 }
 
 /*
@@ -370,18 +377,26 @@ void DataVisualizer::displayModeTemperatureByYear(const vector<vector<vector<Tem
 {
     displayTopic("Mode temperature by year"); // display the topic
 
-	cout << setw(yearWidth) << left << "Year"
-		<< setw(tempWidth) << left << "Temperature" << endl; // display the header
+    stringstream header;
 
-    // loop through the data
-    for (const vector<vector<Temperature>>& year : allData) {
+    header << setw(yearWidth) << left << "Year"
+		<< setw(tempWidth) << left << "Temperature";
+
+    displayMessage(header.str()); // display the header
+
+	// loop through the data
+	for (const vector<vector<Temperature>>& year : allData) {
         int currentYear = getCurrentYear(year); // get the current year
 
-		cout << setw(yearWidth) << left << currentYear
-			<< setw(tempWidth) << left << DataAnalyzer::modeTemperatureOfYear(year) << endl; // display the mode temperature of the year
+		stringstream row;
+
+		row << setw(yearWidth) << left << currentYear
+			<< setw(tempWidth) << left << DataAnalyzer::modeTemperatureOfYear(year);
+
+		displayMessage(row.str()); // display the mode temperature of the year
 	}
 
-	cout << endl << endl;
+    displayNewLine();
 }
 
 /*
@@ -394,10 +409,7 @@ void DataVisualizer::displayColdestMeanTemperatureMonthPerYear(const vector<vect
 
 	displayTopic("Coldest average temperature"); // display the topic
 
-    cout << "Month: " << coldestMean.month << endl;
-    cout << "Temperature: " << coldestMean.temperature << endl;
-
-	cout << endl << endl;
+    displayMessage("Month: " + to_string(coldestMean.month) + "\n\n");
 }
 
 /*
@@ -408,22 +420,30 @@ void DataVisualizer::displayColdestMeanTemperatureMonthByYear(const vector<vecto
 {
     displayTopic("Coldest average temperature month by year"); // display the topic
 
-	cout << setw(yearWidth) << left << "Year"
-		<< setw(monthWidth) << left << "Month"
-		<< setw(tempWidth) << left << "Temperature" << endl; // display the header
+    stringstream header;
 
-    // loop through the data
+    header << setw(yearWidth) << left << "Year"
+		<< setw(monthWidth) << left << "Month"
+		<< setw(tempWidth) << left << "Temperature";
+
+    displayMessage(header.str()); // display the header
+
+	// loop through the data
     for (const vector<vector<Temperature>>& year : allData) {
         int currentYear = getCurrentYear(year); // get the current year
 
-		Temperature coldestMean = DataAnalyzer::coldestMeanTemperatureMonthOfYear(year); // calculate the month with the coldest mean temperature of the year
+        Temperature coldestMean = DataAnalyzer::coldestMeanTemperatureMonthOfYear(year); // calculate the month with the coldest mean temperature of the year
 
-		cout << setw(yearWidth) << left << currentYear
-			<< setw(monthWidth) << left << coldestMean.month
-			<< setw(tempWidth) << left << coldestMean.temperature << endl; // display the month with the coldest mean temperature of the year
-	}
+        stringstream row;
 
-	cout << endl << endl;
+        row << setw(yearWidth) << left << currentYear
+            << setw(monthWidth) << left << coldestMean.month
+            << setw(tempWidth) << left << coldestMean.temperature;
+
+        displayMessage(row.str()); // display the month with the coldest mean temperature of the year
+    }
+
+    displayNewLine();
 }
 
 /*
@@ -436,10 +456,8 @@ void DataVisualizer::displayHottestMeanTemperatureMonthPerYear(const vector<vect
 
 	displayTopic("Hottest average temperature"); // display the topic
 
-	cout << "Month: " << hottestMean.month << endl;
-	cout << "Temperature: " << hottestMean.temperature << endl;
-
-	cout << endl << endl;
+	displayMessage("Month: " + to_string(hottestMean.month));
+    displayMessage("Temperature: " + to_string(hottestMean.temperature) + "\n\n");
 }
 
 /*
@@ -450,22 +468,30 @@ void DataVisualizer::displayHottestMeanTemperatureMonthByYear(const vector<vecto
 {
     displayTopic("Hottest average temperature month by year"); // display the topic
 
-	cout << setw(yearWidth) << left << "Year"
-		<< setw(monthWidth) << left << "Month"
-		<< setw(tempWidth) << left << "Temperature" << endl; // display the header
+    stringstream header;
+
+    header << setw(yearWidth) << left << "Year"
+        << setw(monthWidth) << left << "Month"
+        << setw(tempWidth) << left << "Temperature";
+
+    displayMessage(header.str()); // display the header
 
     // loop through the data
     for (const vector<vector<Temperature>>& year : allData) {
-        int currentYear = getCurrentYear(year); // get the current year
+		int currentYear = getCurrentYear(year); // get the current year
 
 		Temperature hottestMean = DataAnalyzer::hottestMeanTemperatureMonthOfYear(year); // calculate the month with the hottest mean temperature of the year
 
-		cout << setw(yearWidth) << left << currentYear
+		stringstream row;
+
+		row << setw(yearWidth) << left << currentYear
 			<< setw(monthWidth) << left << hottestMean.month
-			<< setw(tempWidth) << left << hottestMean.temperature << endl; // display the month with the hottest mean temperature of the year
+			<< setw(tempWidth) << left << hottestMean.temperature;
+
+		displayMessage(row.str()); // display the month with the hottest mean temperature of the year
 	}
 
-	cout << endl << endl;
+    displayNewLine();
 }
 
 /*
@@ -478,11 +504,9 @@ void DataVisualizer::displayLowestVarienceMonthPerYear(const vector<vector<Tempe
 
     displayTopic("Lowest variance month"); // display the topic
 
-    cout << "Month: " << lowestVariance.month << endl;
-    cout << "Average temperature: " << lowestVariance.mean << endl;
-    cout << "Varience: " << lowestVariance.varience << endl;
-
-    cout << endl << endl;
+    displayMessage("Month: " + to_string(lowestVariance.month));
+    displayMessage("Average temperature: " + to_string(lowestVariance.mean));
+    displayMessage("Variance: " + to_string(lowestVariance.variance) + "\n\n");
 }
 
 /*
@@ -493,22 +517,32 @@ void DataVisualizer::displayLowestVarienceMonthByYear(const vector<vector<vector
 {
 	displayTopic("Lowest variance month by year"); // display the topic
 
-	cout << setw(yearWidth) << left << "Year"
-		<< setw(monthWidth) << left << "Month"
-        << setw(avgTempWidth) << left << "Average temperature" << endl; // display the header
+    stringstream header;
 
-    // loop through the data
-    for (const vector<vector<Temperature>>& year : allData) {
-		int currentYear = getCurrentYear(year); // get the current year
+    header << setw(yearWidth) << left << "Year"
+		<< setw(monthWidth) << left << "Month"
+		<< setw(tempWidth) << left << "Temperature"
+		<< setw(SDWidth) << left << "Variance";
+
+    displayMessage(header.str()); // display the header
+
+	// loop through the data
+	for (const vector<vector<Temperature>>& year : allData) {
+        int currentYear = getCurrentYear(year); // get the current year
 
 		VarienceMonth lowestVariance = DataAnalyzer::lowestVarianceMonthOfYear(year); // calculate the month with the lowest variance of the year
 
-		cout << setw(yearWidth) << left << currentYear
+		stringstream row;
+
+		row << setw(yearWidth) << left << currentYear
 			<< setw(monthWidth) << left << lowestVariance.month
-			<< setw(avgTempWidth) << left << lowestVariance.mean << endl; // display the month with the lowest variance of the year
+			<< setw(tempWidth) << left << lowestVariance.mean
+			<< setw(SDWidth) << left << lowestVariance.variance;
+
+		displayMessage(row.str()); // display the month with the lowest variance of the year
 	}
 
-	cout << endl << endl;
+    displayNewLine();
 }
 
 /*
@@ -522,10 +556,8 @@ void DataVisualizer::displayStandardDeviationPerYear(const vector<vector<Tempera
 
     displayTopic("Standard deviation"); // display the topic
 
-    cout << "Standard deviation: " << standardDeviation << endl;
-    cout << "Percentage of days within one standard deviation: " << percentageOfDaysWithinOneSD << "%" << endl;
-
-    cout << endl << endl;
+    displayMessage("Standard deviation: " + to_string(standardDeviation));
+    displayMessage("Percentage of days within one standard deviation: " + to_string(percentageOfDaysWithinOneSD) + "\n\n");
 }
 
 /*
@@ -536,9 +568,13 @@ void DataVisualizer::displayStandardDeviationByYear(const vector<vector<vector<T
 {
     displayTopic("Standard deviation by year"); // display the topic
 
-	cout << setw(yearWidth) << left << "Year"
-		<< setw(SDWidth) << left << "Standard deviation"
-		<< setw(SDWidth) << left << "% days within one SD" << endl; // display the header
+    stringstream header;
+
+    header << setw(yearWidth) << left << "Year"
+		<< setw(SDWidth) << left << "Standard Deviation"
+		<< setw(SDWidth) << left << "Percentage of days within one SD";
+
+    displayMessage(header.str()); // display the header
 
     // loop through the data
     for (const vector<vector<Temperature>>& year : allData) {
@@ -547,12 +583,16 @@ void DataVisualizer::displayStandardDeviationByYear(const vector<vector<vector<T
 		double standardDeviation = DataAnalyzer::standardDeviationOfYear(year); // calculate the standard deviation of the year
 		double percentageOfDaysWithinOneSD = DataAnalyzer::percentageOfDaysWithinOneSD(year, standardDeviation); // calculate the percentage of days within one standard deviation
 
-		cout << setw(yearWidth) << left << currentYear
+		stringstream row;
+
+		row << setw(yearWidth) << left << currentYear
 			<< setw(SDWidth) << left << standardDeviation
-			<< setw(SDWidth) << left << percentageOfDaysWithinOneSD << endl; // display the standard deviation and the percentage of days within one standard deviation
+			<< setw(SDWidth) << left << percentageOfDaysWithinOneSD;
+
+		displayMessage(row.str()); // display the standard deviation and the percentage of days within one standard deviation of the year
 	}
 
-	cout << endl << endl;
+    displayNewLine();
 }
 
 /*
@@ -565,10 +605,8 @@ void DataVisualizer::displayColdestDayByMonth(const vector<vector<vector<Tempera
 
 	Temperature coldest = DataAnalyzer::coldestDayByMonth(data, month); // calculate the coldest day of the month
 
-	cout << "Temperature: " << coldest.temperature << endl;
-	cout << "Date: " << coldest.year << "-" << coldest.month << "-" << coldest.day << endl;
-
-	cout << endl << endl;
+    displayMessage("Temperature: " + to_string(coldest.temperature));
+    displayMessage("Date: " + to_string(coldest.year) + "-" + to_string(coldest.month) + "-" + to_string(coldest.day) + "\n\n");
 }
 
 /*
@@ -581,10 +619,8 @@ void DataVisualizer::displayHottestDayByMonth(const vector<vector<vector<Tempera
 
     Temperature hottest = DataAnalyzer::hottestDayByMonth(data, month); // calculate the hottest day of the month
 
-    cout << "Temperature: " << hottest.temperature << endl;
-    cout << "Date: " << hottest.year << "-" << hottest.month << "-" << hottest.day << endl;
-
-    cout << endl << endl;
+    displayMessage("Temperature: " + to_string(hottest.temperature));
+    displayMessage("Date: " + to_string(hottest.year) + "-" + to_string(hottest.month) + "-" + to_string(hottest.day) + "\n\n");
 }
 
 /*
@@ -597,9 +633,7 @@ void DataVisualizer::displayLowestVarienceYearByMonth(const vector<vector<vector
 
 	int year = DataAnalyzer::lowestVarianceYearByMonth(allData, month); // calculate the year with the lowest variance of the given month
 
-	cout << "Year: " << year << endl;
-
-	cout << endl << endl;
+    displayMessage("Year: " + to_string(year) + "\n\n");
 }
 
 /*

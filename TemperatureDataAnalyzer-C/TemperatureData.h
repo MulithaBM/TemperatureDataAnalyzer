@@ -1,3 +1,11 @@
+/*
+* Program Name: TemperatureDataAnalyzer
+* Programmer: Vasim Ashhar
+* File: TemperatureData.h
+* Date: 2024-05-12
+* Description: Header file for the class that extracts data from the datasets
+*/
+
 #ifndef TEMPERATUREDATA_H
 #define TEMPERATUREDATA_H
 

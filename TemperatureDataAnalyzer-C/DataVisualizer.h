@@ -1,6 +1,14 @@
 #ifndef DATAVISUALIZER_H
 #define DATAVISUALIZER_H
 
+/*
+* Program Name: TemperatureDataAnalyzer
+* Programmer: Vasim Ashhar
+* File: DataVisualizer.h
+* Date: 2024-05-12
+* Description: Header file for the class that displays data to console
+*/
+
 #include <vector>
 #include "TemperatureData.h"
 

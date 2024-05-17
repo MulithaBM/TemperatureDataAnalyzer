@@ -1,6 +1,6 @@
 /*
 * Program Name: TemperatureDataAnalyzer
-* Programmer:
+* Programmer: Vasim Ashhar
 * File: DataAnalyzer.cpp
 * Date: 2024-05-12
 * Description: Method implementations for the DataAnalyzer class

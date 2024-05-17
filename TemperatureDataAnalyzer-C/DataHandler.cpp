@@ -1,3 +1,11 @@
+/*
+* Program Name: TemperatureDataAnalyzer
+* Programmer: Vasim Ashhar
+* File: DataHandler.cpp
+* Date: 2024-05-12
+* Description: Method implementations for the DataHandler class
+*/
+
 #include<sstream>
 #include "DataHandler.h"
 #include "DataVisualizer.h"
@@ -7,9 +15,14 @@
 
 using namespace std;
 
-DataHandler* DataHandler::handler = nullptr;
+DataHandler* DataHandler::handler = nullptr; // initialize static property
 
 // public members
+
+/*
+* Function: get a reference to the DataHandler instance
+* Return: DataHandler instance reference
+*/
 DataHandler& DataHandler::getInstance()
 {
 	if (handler == nullptr) {
@@ -19,77 +32,103 @@ DataHandler& DataHandler::getInstance()
 	return *handler;
 }
 
+/*
+* Function: handle of each year
+* Parameters: 3D vector of all the data for each year and source of the data
+*/
 void DataHandler::handleDataByYear(const vector<vector<vector<Temperature>>>& allData, const string source)
 {
-	DataVisualizer::displayDataByYear(allData);
+	DataVisualizer::displayDataByYear(allData); // display data to console
 
-	prepareWriteDataByYear(allData, source);
+	prepareWriteDataByYear(allData, source); // prepare data to write to log file
 
-	logData();
+	logData(); // log data to log file
 }
 
+/*
+* Function: handle data for a single year
+* Parameters: 2D vector of all the data for a single year
+*/
 void DataHandler::handleDataPerYear(const vector<vector<Temperature>>& yearData)
 {
-	DataVisualizer::displayDataPerYear(yearData);
+	DataVisualizer::displayDataPerYear(yearData); // display data to console
 
-	logData();
+	logData(); // log data to log file
 }
 
+/*
+* Function: handle data for a given month in all the years
+* Parameters: 3D vector of all the data for each year and month and specific month
+*/
 void DataHandler::handleDataByMonth(const vector<vector<vector<Temperature>>>& allData, int month)
 {
-	DataVisualizer::displayDataByMonth(allData, month);
+	DataVisualizer::displayDataByMonth(allData, month); // display data to console
 
-	logData();
+	logData(); // log data to log file
 }
 
+/*
+* Function: add log messages to the logMessages vector
+* Parameters: message to log
+*/
 void DataHandler::addLogMessage(const string message)
 {
 	logMessages.push_back(message);
 }
 
+// private members
+
+/*
+* Function: prepare data to write to log file for all the years
+* Parameters: 3D vector of all the data for each year and source of the data and the dataset source
+*/
 void DataHandler::prepareWriteDataByYear(const vector<vector<vector<Temperature>>>& allData, const string source)
 {
-    DataWriter dataWriter(source);
+    DataWriter dataWriter(source); // create a DataWriter instance
 
-    int currentYear = 0;
-    int currentMonth = 1;
+    int currentYear = 0; // initialize current year
+    int currentMonth = 1; // initialize current month
 
     for (const vector<vector<Temperature>>& year : allData) {
-        vector<string> outputData;
+        vector<string> outputData; // declare output data vector
 
         for (const vector<Temperature>& month : year) {
-            stringstream row;
+            stringstream row; // declare a stringstream for a row
 
             if (month.empty()) {
-                row << getMonthString(currentMonth) << "," << "" << "," << "" << "," << "" << "," << "";
+                row << getMonthString(currentMonth) << "," << "" << "," << "" << "," << "" << "," << ""; // write empty row
             }
             else {
-                currentYear = month[0].year;
+                currentYear = month[0].year; // set current year
 
-                double hottest = DataAnalyzer::hottestDayOfMonth(month).temperature;
-                double coldest = DataAnalyzer::coldestDayOfMonth(month).temperature;
-                double mean = DataAnalyzer::meanTemperatureOfMonth(month);
-                double median = DataAnalyzer::medianTemperatureOfMonth(month);
+                double hottest = DataAnalyzer::hottestDayOfMonth(month).temperature; // get hottest day of the month
+                double coldest = DataAnalyzer::coldestDayOfMonth(month).temperature; // get coldest day of the month
+                double mean = DataAnalyzer::meanTemperatureOfMonth(month); // get mean temperature of the month
+                double median = DataAnalyzer::medianTemperatureOfMonth(month); // get median temperature of the month
 
                 row << getMonthString(currentMonth) << ","
                     << hottest << ","
                     << coldest << ","
                     << mean << ","
-                    << median;
+                    << median; // write row
             }
 
-            outputData.push_back(row.str());
+            outputData.push_back(row.str()); // add row to output data
 
-            currentMonth++;
+            currentMonth++; // increment current month
         }
 
-        currentMonth = 1;
+        currentMonth = 1; // reset current month
 
-        dataWriter.writeDataPerYear(outputData, to_string(currentYear) + ".csv");
+        dataWriter.writeDataPerYear(outputData, to_string(currentYear) + ".csv"); // write data to file
     }
 }
 
-// private members
+/*
+* Function: get month string
+* Parameters: month number
+* Return: month string
+*/
 string DataHandler::getMonthString(const int month)
 {
     switch (month) {
@@ -122,13 +161,17 @@ string DataHandler::getMonthString(const int month)
 	}
 }
 
+/*
+* Function: log data to log file
+*/
 void DataHandler::logData()
 {
-	DataLogger logger(LOG_FILE);
+	DataLogger logger(LOG_FILE); // create a DataLogger instance
 
+	// loop through log messages
 	for (const string& message : logMessages) {
-		logger.logData(message);
+		logger.logData(message); // log message
 	}
 
-	logger.closeFile();
+	logger.closeFile(); // close log file
 }

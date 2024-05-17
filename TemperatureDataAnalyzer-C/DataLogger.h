@@ -1,3 +1,11 @@
+/*
+* Program Name: TemperatureDataAnalyzer
+* Programmer: Vasim Ashhar
+* File: DataLogger.h
+* Date: 2024-05-12
+* Description: Header file for class that logs the data
+*/
+
 #ifndef DATALOGGER_H
 #define DATALOGGER_H
 

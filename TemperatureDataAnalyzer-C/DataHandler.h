@@ -1,3 +1,11 @@
+/*
+* Program Name: TemperatureDataAnalyzer
+* Programmer: Vasim Ashhar
+* File: DataHandler.h
+* Date: 2024-05-12
+* Description: Header file for the class that acts as the command class
+*/
+
 #ifndef DATAHANDLER_H
 #define DATAHANDLER_H
 
@@ -18,9 +26,9 @@ public:
 	void handleDataByMonth(const vector<vector<vector<Temperature>>>& allData, int month);
 	void addLogMessage(const string message);
 private:
-	DataHandler() = default;
 	static DataHandler* handler;
 	vector<string> logMessages;
+	DataHandler() = default;
 	static void prepareWriteDataByYear(const vector<vector<vector<Temperature>>>& allData, const string source);
 	static string getMonthString(const int month);
 	void logData();

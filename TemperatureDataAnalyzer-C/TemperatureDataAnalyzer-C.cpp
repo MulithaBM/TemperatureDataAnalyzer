@@ -1,5 +1,10 @@
-// TemperatureDataAnalyzer-C.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+/*
+* Program Name: TemperatureDataAnalyzer
+* Programmer: Vasim Ashhar
+* File: DataAnalyzer.cpp
+* Date: 2024-05-12
+* Description: This file contains the 'main' function
+*/
 
 #include <iostream>
 #include "TemperatureData.h"
@@ -55,9 +60,7 @@ int main() {
             int timeChoice;
             cin >> timeChoice;
 
-            dataHandler.addLogMessage("User input: " + to_string(timeChoice) + "\n");
-
-            DataVisualizer::displayNewLine();
+            DataVisualizer::displayMessage("User input: " + to_string(timeChoice) + "\n");
 
             if (timeChoice == 1) {
                 const vector<int>& years = data.getYears();
@@ -70,9 +73,7 @@ int main() {
                 string yearChoice;
                 cin >> yearChoice;
 
-                dataHandler.addLogMessage("User input: " + yearChoice + "\n");
-
-                DataVisualizer::displayNewLine();
+                DataVisualizer::displayMessage("User input: " + yearChoice + "\n");
 
                 if (yearChoice == "*") {
                     dataHandler.handleDataByYear(groupedData, fileChoice);
@@ -97,7 +98,7 @@ int main() {
                 int monthChoice;
                 cin >> monthChoice;
 
-                dataHandler.addLogMessage("User input: " + to_string(monthChoice) + "\n");
+                DataVisualizer::displayMessage("User input: " + to_string(monthChoice) + "\n");
 
                 if (monthChoice >= 1 && monthChoice <= 12) {
                     dataHandler.handleDataByMonth(groupedData, monthChoice);

@@ -1,3 +1,11 @@
+/*
+* Program Name: TemperatureDataAnalyzer
+* Programmer: Vasim Ashhar
+* File: DataLogger.cpp
+* Date: 2024-05-12
+* Description: Method implementations for the DataLogger class
+*/
+
 #include <iostream>
 #include <fstream>
 

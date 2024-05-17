@@ -1,3 +1,11 @@
+/*
+* Program Name: TemperatureDataAnalyzer
+* Programmer: Vasim Ashhar
+* File: DataAnalyzer.h
+* Date: 2024-05-12
+* Description: Header file for the class that analyzes the temperature data
+*/
+
 #ifndef DATAANALYZER_H
 #define DATAANALYZER_H
 
@@ -12,7 +20,7 @@ static const double MAX_TEMPERATURE = numeric_limits<double>::max();
 struct VarienceMonth {
     int month;
     double mean;
-	double varience;
+	double variance;
 };
 
 class DataAnalyzer {
