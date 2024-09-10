@@ -1,6 +1,6 @@
 /*
 * Program Name: TemperatureDataAnalyzer
-* Programmer: Vasim Ashhar
+* Programmer: MulithaBM
 * File: DataLogger.h
 * Date: 2024-05-12
 * Description: Header file for class that logs the data

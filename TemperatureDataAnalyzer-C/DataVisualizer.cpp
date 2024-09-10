@@ -1,6 +1,6 @@
 /*
 * Program Name: TemperatureDataAnalyzer
-* Programmer: Vasim Ashhar
+* Programmer: MulithaBM
 * File: DataVisualizer.cpp
 * Date: 2024-05-12
 * Description: Method implementations for the DataVisualizer class
@@ -28,7 +28,7 @@ using namespace std;
 void DataVisualizer::displayWelcomeMessage()
 {
     displayMessage("Turing Moore Engineering Temperature Data Analyser 1.0");
-    displayMessage("Name: Vasim Ashhar");
+    displayMessage("Name: MulithaBMr");
     displayMessage("Student ID: DU23FP0248");
     displayMessage("Assignment due date: 17/05/2024");
     displayMessage("Desired Level: HD\n");
@@ -409,7 +409,8 @@ void DataVisualizer::displayColdestMeanTemperatureMonthPerYear(const vector<vect
 
 	displayTopic("Coldest average temperature"); // display the topic
 
-    displayMessage("Month: " + to_string(coldestMean.month) + "\n\n");
+    displayMessage("Month: " + to_string(coldestMean.month));
+    displayMessage("Temperature: " + to_string(coldestMean.temperature) + "\n\n");
 }
 
 /*

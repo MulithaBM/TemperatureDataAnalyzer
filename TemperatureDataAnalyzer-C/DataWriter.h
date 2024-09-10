@@ -1,6 +1,6 @@
 /*
 * Program Name: TemperatureDataAnalyzer
-* Programmer: Vasim Ashhar
+* Programmer: MulithaBM
 * File: DataWriter.h
 * Date: 2024-05-12
 * Description: Header file for the class that writes the data to result files

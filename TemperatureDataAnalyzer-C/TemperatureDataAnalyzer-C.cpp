@@ -1,6 +1,6 @@
 /*
 * Program Name: TemperatureDataAnalyzer
-* Programmer: Vasim Ashhar
+* Programmer: MulithaBM
 * File: DataAnalyzer.cpp
 * Date: 2024-05-12
 * Description: This file contains the 'main' function
@@ -30,12 +30,11 @@ int main() {
         cin >> fileChoice;
 
         dataHandler.addLogMessage("User input: " + fileChoice + "\n");
-
         cout << endl;
 
         if (fileChoice == "avalon" || fileChoice == "bendingo") {
 
-            string filename = "../x64/Debug/";
+            string filename;
 
             if (fileChoice == "avalon") {
                 filename += "Avalon Airport Temperature Data-all.csv";
@@ -60,7 +59,8 @@ int main() {
             int timeChoice;
             cin >> timeChoice;
 
-            DataVisualizer::displayMessage("User input: " + to_string(timeChoice) + "\n");
+            dataHandler.addLogMessage("User input: " + to_string(timeChoice) + "\n");
+            cout << endl;
 
             if (timeChoice == 1) {
                 const vector<int>& years = data.getYears();
@@ -73,7 +73,8 @@ int main() {
                 string yearChoice;
                 cin >> yearChoice;
 
-                DataVisualizer::displayMessage("User input: " + yearChoice + "\n");
+                dataHandler.addLogMessage("User input: " + yearChoice + "\n");
+                cout << endl;
 
                 if (yearChoice == "*") {
                     dataHandler.handleDataByYear(groupedData, fileChoice);
@@ -98,7 +99,8 @@ int main() {
                 int monthChoice;
                 cin >> monthChoice;
 
-                DataVisualizer::displayMessage("User input: " + to_string(monthChoice) + "\n");
+                dataHandler.addLogMessage("User input: " + to_string(monthChoice) + "\n");
+                cout << endl;
 
                 if (monthChoice >= 1 && monthChoice <= 12) {
                     dataHandler.handleDataByMonth(groupedData, monthChoice);
@@ -115,8 +117,11 @@ int main() {
             DataVisualizer::displayMessage("Invalid input.\n");
         }
 
-        cout << "Do you want to continue (c) or exit (e)? ";
+        DataVisualizer::displayMessage("Do you want to continue (c) or exit (e)?: ");
         cin >> continueChoice;
+
+        dataHandler.addLogMessage("User input: " + to_string(continueChoice)+"\n");
+        cout << endl;
     } while (tolower(continueChoice) == 'c');
 
     DataVisualizer::displayMessage("Exiting program.Thank you!");

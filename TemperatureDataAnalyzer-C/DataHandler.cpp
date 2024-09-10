@@ -1,6 +1,6 @@
 /*
 * Program Name: TemperatureDataAnalyzer
-* Programmer: Vasim Ashhar
+* Programmer: MulithaBM
 * File: DataHandler.cpp
 * Date: 2024-05-12
 * Description: Method implementations for the DataHandler class
@@ -33,7 +33,7 @@ DataHandler& DataHandler::getInstance()
 }
 
 /*
-* Function: handle of each year
+* Function: handle data for each year
 * Parameters: 3D vector of all the data for each year and source of the data
 */
 void DataHandler::handleDataByYear(const vector<vector<vector<Temperature>>>& allData, const string source)
